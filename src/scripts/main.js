@@ -2,10 +2,12 @@
 
 const Game = require('../modules/Game.class');
 const { default: initialState } = require('./components/initialState');
+const { default: swipe } = require('./components/swipe');
 const startButton = document.querySelector('.controls button');
 const score = document.querySelector('.game-score');
 
 const game = new Game(initialState());
+document.body.style.overflowY = 'hidden';
 
 startButton.addEventListener('click', () => {
   if (startButton.classList.contains('start')) {
@@ -57,3 +59,5 @@ document.addEventListener('keydown', (e) => {
     score.textContent = data;
   }
 });
+
+swipe(game);
