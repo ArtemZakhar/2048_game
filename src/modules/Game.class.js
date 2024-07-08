@@ -83,6 +83,13 @@ class Game {
   restart() {
     this.state = initialState();
     renderNums(this.getState());
+    this.status = gameStatus.playing;
+
+    document.querySelectorAll('.message').forEach((message) => {
+      if (!message.classList.contains('hidden')) {
+        message.classList.add('hidden');
+      }
+    });
   }
 
   applyChanges(afterMove) {
@@ -107,7 +114,11 @@ class Game {
   }
 
   isFull(afterMove) {
-    return afterMove.flat().every((cell) => cell !== 0);
+    if (!afterMove) {
+      return this.getState()
+        .flat()
+        .every((cell) => cell !== 0);
+    }
   }
 
   gameOver() {
