@@ -86,13 +86,13 @@ class Game {
   }
 
   applyChanges(afterMove) {
-    if (!afterMove) {
-      return;
-    }
-
     if (this.isFull(afterMove)) {
       this.gameOver();
 
+      return;
+    }
+
+    if (!afterMove) {
       return;
     }
 
