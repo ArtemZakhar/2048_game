@@ -92,8 +92,10 @@ class Game {
     });
   }
 
-  applyChanges(afterMove) {
-    if (this.isFull(afterMove)) {
+  async applyChanges(afterMove) {
+    const full = await this.isFull(afterMove);
+
+    if (full) {
       this.gameOver();
 
       return;
@@ -115,9 +117,38 @@ class Game {
 
   isFull(afterMove) {
     if (!afterMove) {
-      return this.getState()
-        .flat()
-        .every((cell) => cell !== 0);
+      return new Promise((resolve, reject) => {
+        const right = moveRight(this.getState());
+
+        if (right) {
+          return false;
+        }
+
+        resolve();
+      })
+        .then(() => {
+          const left = moveLeft(this.getState());
+
+          if (left) {
+            return false;
+          }
+        })
+        .then(() => {
+          const up = moveUp(this.getState());
+
+          if (up) {
+            return false;
+          }
+        })
+        .then(() => {
+          const down = moveDown(this.getState());
+
+          if (down) {
+            return false;
+          }
+
+          return true;
+        });
     }
   }
 
